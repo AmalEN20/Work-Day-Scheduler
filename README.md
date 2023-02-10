@@ -25,7 +25,8 @@ Acceptance Criteria
 This project is to build a Work Day Scheduler application. The application will display time blocks (9AM to 5PM) for that day and each time block will be color coded to indicate whether it is in the past, present or future.
 
 ## Previews
-![Screen Shot 2022-12-11 at 9 05 00 PM](https://user-images.githubusercontent.com/116880367/206964831-07c1ea94-b6bb-4296-b3a9-4f755c2774b2.png)
+![Screen Shot 2023-02-10 at 12 45 00 AM](https://user-images.githubusercontent.com/116880367/218045302-f768ad9f-929e-4921-a38d-6b2f1fb6bba4.png)
+
 
 ### Usage
 To use this application, go to [GitHub Pages] and click on the time block where you have an event. Type the event and click on the blue save button.
