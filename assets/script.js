@@ -1,55 +1,53 @@
-// created date for top of page with dayJs and formatting month/day/year
+ // WHEN I refresh the page 
+ // THEN the saved events persist
+ $("#7am .description").val(localStorage.getItem("7am"));
+ $("#8am .description").val(localStorage.getItem("8am"));
+ $("#9am .description").val(localStorage.getItem("9am"));
+ $("#10am .description").val(localStorage.getItem("10am"));
+ $("#11am .description").val(localStorage.getItem("11am"));
+ $("#12pm .description").val(localStorage.getItem("12pm"));
+ $("#1pm .description").val(localStorage.getItem("1pm"));
+ $("#2pm .description").val(localStorage.getItem("2pm"));
+ $("#3pm .description").val(localStorage.getItem("3pm"));
+ $("#4pm .description").val(localStorage.getItem("4pm"));
+ $("#5pm .description").val(localStorage.getItem("5pm"));
 
-var currentMoment = dayjs().format("MM/D/YYYY")
+$(document).ready(function() {
+    // WHEN I open the planner THEN the current day is displayed at the top of the calendar
+    var timeUpdate = function() {
+        $("#currentDate").text(moment().format("dddd, MMMM Do h:mm:ss a"));
+        $("#currentTime").text(moment().format("h:mm:ss a"));
+    };
+    timeUpdate();
+    setInterval(timeUpdate, 1000);
+    // WHEN I view the time blocks for that day 
+    // THEN each time block is color-coded to indicate whether it is in the past, present, or future.
+    var colorCoder = function() {
+        var presentTime = moment().hours();
 
-// set .text to issue out current day to screen 
+        $(".time-block").each(function() {
+        var timeBlock = parseInt($(this).attr("id")[1]);
+  
+        if (timeBlock < presentTime) {
+          $(this).addClass("past");
+        } 
+        else if (timeBlock === presentTime) {
+          $(this).addClass("present");
+        } 
+        else {
+          $(this).addClass("future");
+        }
+        console.log(timeBlock);
+      });   
+    }
+    colorCoder();
 
-$("#currentDay").text(currentMoment)
-
-// sets current hour with (H)
-
-var currentHour = dayjs().format("H")
-console.log(currentHour)
-
-//created for loop to run through hours 9-16 to add class to current hours depending on dayjs  
-
-for(i = 9; i <= 16; i++) {
-  // if past
-  if(currentHour > i) {
-  $("#hour-"+i).addClass("past")
-  // if present
-  } else if (currentHour == i) {
-    $("#hour-"+i).addClass("present")
-    // if future
-  } else {
-    $("#hour-"+i).addClass("future")
-  }
-}
-
-// created variable to attach to all buttons 
-
-var allButtons = $(".btn")
-
-// created event listners for click 
-// split functions retrieves click events into an array to seperate class from number
-allButtons.on("click", function(event){
-  var number = (event.currentTarget.id.split("-")[1]);
-
-  var textArea = $("#txt-"+ number)
-
-//textArea set to val to save any input stated in input 
-
-  var textToSave = textArea.val();
-
-  console.log(textToSave)
-
-  // created local storage to set items 
-
-  localStorage.setItem("saved-"+number, textToSave)
-
+    // WHEN I click the save button for that time block 
+    // THEN the text for that event is saved in local storage
+    $(".saveBtn").on("click", function() {
+        var taskEntryTime = $(this).parent().attr("id");
+        var taskEntryText = $(this).siblings(".description").val();
+        localStorage.setItem(taskEntryTime, taskEntryText);
+        console.log(taskEntryTime, taskEntryText);
+    });
 })
-// created for loop to GetItems from local storage
-for(i = 9; i <= 16; i++) {
-  var savedText = localStorage.getItem("saved-"+i);
-  $("#txt-"+i).val(savedText)
-}
